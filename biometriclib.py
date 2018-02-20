@@ -40,11 +40,14 @@ dentro de __main__ esta um teste que ao executar o arquivo diretamente roda um f
 '''
 import threading
 import time
+import sqlite3
+import urllib.request
 
 CMD = 0
 STREAM = 'STOPED'
 TMPL = None
 TMPLS = []
+PAYLOAD = False
 
 def run_thread_process():
     global CMD
@@ -65,35 +68,72 @@ def init():
     threads.append(t)
     t.start()
 
+def createDatabase():
+    conn = sqlite3.connect('example.db')
+    c = conn.cursor()
+    try:
+        c.execute('''CREATE TABLE users (pId, bir)''')
+        c.execute("INSERT INTO users VALUES ('1001','512245')")
+        conn.commit()
+    except:
+        pass
+    conn.close()
+
+def removeDatabase():
+    conn = sqlite3.connect('example.db')
+    c = conn.cursor()
+    c.execute('''DROP TABLE users''')
+    conn.commit()
+    conn.close()
+
 def close():
     t._stop()
 
-def run(cmd, data=False):
+def run(cmd, data=False, payload=False):
     global CMD
     if cmd == 3:
         TMPL = data
     if cmd == 4:
         TMPLS = data
+    PAYLOAD = payload
     CMD = cmd
 
 def stream():
     return STREAM
 
 def ify():
-    global CMD, TMPL, STREAM
+    # 1:N
+    tmp_list = []
+    tmp_user = {}
+    conn = sqlite3.connect('example.db')
+    c = conn.cursor()
+    c.execute('SELECT * FROM users')
+    for row in c.fetchall():
+        tmp_list.append(row[1])
+        tmp_user = {row[1]: row[0]}
+
+    global CMD, TMPL, STREAM, PAYLOAD
     while True:
         time.sleep(0.2)
         if CMD == 2:
+            if PAYLOAD:
+                with urllib.request.urlopen('http://www.python.org/') as f:
+                    print('FETCH URL', f.read(100).decode('utf-8'))
+            if '512245' in tmp_list:
+                print('user', tmp_user['512245'])
             break
 
         STREAM = 'IFY: Coloque a mao no sensor'
         # compare TMPL
 
 def vfy():
-    global CMD, TMPLS, STREAM
+    global CMD, TMPLS, STREAM, PAYLOAD
     while True:
         time.sleep(0.2)
         if CMD == 2:
+            if PAYLOAD:
+                with urllib.request.urlopen('http://www.python.org/') as f:
+                    print('FETCH URL', f.read(100).decode('utf-8'))
             break
     
         STREAM = 'VFY: Coloque a mao no sensor'

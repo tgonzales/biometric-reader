@@ -1,5 +1,6 @@
 from biometriclib import *
 
+createDatabase()
 _time = 0.3
 init()
 time.sleep(_time)
@@ -30,5 +31,6 @@ for i in range(5):
     time.sleep(_time)
     print(stream())
 
+removeDatabase()
 run(0)
 print('FINISH ...')
