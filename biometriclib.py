@@ -103,28 +103,27 @@ def stream():
 
 def ify():
     # 1:N
-    tmp_list = []
-    tmp_user = {}
     conn = sqlite3.connect('example.db')
     c = conn.cursor()
     c.execute('SELECT * FROM users')
-    for row in c.fetchall():
-        tmp_list.append(row[1])
-        tmp_user = {row[1]: row[0]}
+    tmp_list = c.fetchall()
 
-    global CMD, TMPL, STREAM, PAYLOAD
+    global CMD, STREAM, PAYLOAD
     while True:
         time.sleep(0.2)
         if CMD == 2:
-            if PAYLOAD:
-                with urllib.request.urlopen('http://www.python.org/') as f:
-                    print('FETCH URL', f.read(100).decode('utf-8'))
-            if '512245' in tmp_list:
-                print('user', tmp_user['512245'])
-            break
+            for template in tmp_list:
+                print(template[1])
+                if 'X' == template[1]:
+                    print('user Encontrado')
+                    break
 
         STREAM = 'IFY: Coloque a mao no sensor'
         # compare TMPL
+
+    if PAYLOAD: #Apos checagem fazer transacao de sucesso/erro se necessario
+        with urllib.request.urlopen('http://www.python.org/') as f:
+            print('FETCH URL', f.read(100).decode('utf-8'))
 
 def vfy():
     global CMD, TMPLS, STREAM, PAYLOAD
