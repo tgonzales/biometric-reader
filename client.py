@@ -1,5 +1,6 @@
+from createdb import createDatabase, removeDatabase
 from biometriclib import *
-# methods run(),  init(), stream(), createDatabase()
+# methods run(),  init(), stream()
 
 createDatabase()
 _time = 0.3
