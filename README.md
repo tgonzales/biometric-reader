@@ -11,8 +11,11 @@
 ### O programa tem 2 threads
 - a thread principal, executa os seguintes metodos
 	> init() iniciar a comunicao com o driver
+	
 	> close() fechar a comunicao com o driver
-	> run() manda comandos para o driver que sao armazenados na variavel 		   global CMD
+	
+	> run() manda comandos para o driver que sao armazenados na variavel global CMD
+	
 	> stream() retorna a ultima mensagem (string) do driver.
 
 - Em paralelo eh executado a segunda thread
@@ -21,6 +24,7 @@
 - esse metodo fica checando a variavel CMD
 para ele o importante sao os CMD 3, 4 e 5
 	> 3 - ify - identification (1 para N - compara a mao que esta no sensor com algum template de mao que estao em um array)
+	
 	> 4 - vfy - verification (1 para 1 - compara a mao que esta no sensor com o template da mao informado previamente)
 enr - grava o template da mao e retorna o template
 
@@ -29,7 +33,9 @@ ex.
 - uma vez que estamos rodando vfy e queremos mudar para ify. nesse caso, o programa cliente deveria
 iniciar o vfy, encerrar e iniciar o ify,
 	> run(4) # inicia vfy
+	
 	> run(2) # encerra vfy
+	
 	> run(3) # inicia ify
 
 isso acontece porque ify, vfy, enr rodam em um while entao precisamos dar um break para entrar em outro CMD
