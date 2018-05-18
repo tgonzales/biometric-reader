@@ -21,12 +21,12 @@
 - Em paralelo eh executado a segunda thread
 	> run_thread_process()
 
-- esse metodo fica checando a variavel CMD
-para ele o importante sao os CMD 3, 4 e 5
+- esse metodo fica checando a variavel CMD. Para ele o importante sao os CMD 3, 4 e 5
 	> 3 - ify - identification (1 para N - compara a mao que esta no sensor com algum template de mao que estao em um array)
 	
 	> 4 - vfy - verification (1 para 1 - compara a mao que esta no sensor com o template da mao informado previamente)
-enr - grava o template da mao e retorna o template
+
+	> 5 - enr - grava o template da mao e retorna o template
 
 A necessidade de ter 2 threads eh pela necessidade de termos que interromper um processo e iniciar outro.
 ex. 
